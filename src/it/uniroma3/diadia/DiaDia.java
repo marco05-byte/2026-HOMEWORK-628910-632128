@@ -19,6 +19,8 @@ import it.uniroma3.diadia.comandi.FabbricaDiComandiFisarmonica;
  * @version base
  */
 
+// test modifica git!!!!!!!!!!!!
+
 public class DiaDia {
 
 	static final private String MESSAGGIO_BENVENUTO = ""+

@@ -1,51 +1,63 @@
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
+import it.uniroma3.diadia.Partita;
+import it.uniroma3.diadia.ambienti.*;
 
-import it.uniroma3.diadia.ambienti.Labirinto;
-import it.uniroma3.diadia.ambienti.Stanza;
+class LabirintoTest {
 
-public class LabirintoTest {
-	@Test
-	public void entrataTest() {
-		Labirinto l = new Labirinto();
-		assertNotNull(l.getEntrata());
-	}
-	@Test
-	public void entrataUscitaTest() {
-		Labirinto l = new Labirinto();
-		assertNotEquals(l.getEntrata(), l.getUscita());
-	}
-	@Test
-	public void collegamentoTest() {
-		Labirinto l = new Labirinto();
-		Stanza nord = l.getEntrata().getStanzaAdiacente("nord");
-		assertNotNull(nord);
-		assertEquals("Biblioteca", nord.getNome());
-	}
-	@Test
-	public void testEntrataHaUsciteValide() {
-		Labirinto l = new Labirinto();
-		Stanza entrata = l.getEntrata();
-		assertNotNull(entrata.getStanzaAdiacente("nord"));
-	}
-	@Test
-	public void testDirezioneNonValida() {
-		Labirinto l = new Labirinto();
-		Stanza entrata = l.getEntrata();
-		assertNull(entrata.getStanzaAdiacente("alto"));
-	}
-	@Test
-	public void testStanzaInizialeNotNull() {
-		Labirinto l = new Labirinto();
-		assertNotNull(l.getEntrata());
-	}
-	@Test
-	public void testStanzaFinaleNotNull() {
-		Labirinto l = new Labirinto();
-		assertNotNull(l.getUscita());
-	}
+    @Test
+    void testLabirintoBuilderBase() {
+
+        Labirinto lab = Labirinto.newBuilder()
+                .addStanzaIniziale("entrata")
+                .addStanza("corridoio")
+                .addStanzaVincente("uscita")
+                .addAdiacenza("entrata", "corridoio", Direzione.NORD)
+                .getLabirinto();
+
+        assertNotNull(lab.getStanzaIniziale());
+        assertNotNull(lab.getStanzaVincente());
+
+        assertEquals("entrata", lab.getStanzaIniziale().getNome());
+        assertEquals("uscita", lab.getStanzaVincente().getNome());
+    }
+    @Test
+    void testAdiacenza() {
+
+        Labirinto lab = Labirinto.newBuilder()
+                .addStanzaIniziale("A")
+                .addStanza("B")
+                .addAdiacenza("A", "B", Direzione.NORD)
+                .getLabirinto();
+
+        Stanza a = lab.getStanzaIniziale();
+        Stanza b = lab.getStanze().get("B");
+
+        assertEquals(b, a.getStanzaAdiacente(Direzione.NORD));
+    }
+    @Test
+    void testAttrezzo() {
+
+        Labirinto lab = Labirinto.newBuilder()
+                .addStanzaIniziale("A")
+                .addAttrezzo("osso", 1)
+                .getLabirinto();
+
+        Stanza a = lab.getStanzaIniziale();
+
+        assertTrue(a.hasAttrezzo("osso"));
+    }
+    @Test
+    void testPartitaInizializzazione() {
+
+        Labirinto lab = Labirinto.newBuilder()
+                .addStanzaIniziale("A")
+                .addStanzaVincente("B")
+                .getLabirinto();
+
+        Partita p = new Partita(lab);
+
+        assertEquals(p.getStanzaCorrente(), lab.getStanzaIniziale());
+    }
 }

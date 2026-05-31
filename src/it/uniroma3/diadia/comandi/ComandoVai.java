@@ -1,48 +1,54 @@
 package it.uniroma3.diadia.comandi;
 
-import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.Partita;
+import it.uniroma3.diadia.ambienti.Direzione;
 import it.uniroma3.diadia.ambienti.Stanza;
 
-public class ComandoVai implements Comando {
-	private String direzione;
+public class ComandoVai extends AbstractComando {
 
-	private IO io;
+	public ComandoVai() {
+		registraComando(getNome());
+	}
 
-	@Override
-	public void setIO(IO io) {
-	    this.io = io;
-	}
-	@Override
-	public void setParametro(String parametro) {
-		this.direzione = parametro;
-	}
 	@Override
 	public void esegui(Partita partita) {
-		Stanza stanzaCorrente = partita.getStanzaCorrente();
-		Stanza prossimaStanza = null;
-		if(direzione==null) {
+
+		String parametro = getParametro();
+
+		if (parametro == null) {
 			io.mostraMessaggio("Dove vuoi andare?");
 			io.mostraMessaggio("Devi specificare una direzione");
 			return;
 		}
-		prossimaStanza = stanzaCorrente.getStanzaAdiacente(this.direzione);
-		if(prossimaStanza==null) {
-			io.mostraMessaggio("Direzione insesistente");
+
+		Direzione direzione;
+
+		try {
+			direzione = Direzione.valueOf(parametro.toUpperCase());
+		} catch (IllegalArgumentException e) {
+			io.mostraMessaggio("Direzione non valida");
 			return;
 		}
-		partita.setStanzaCorrente(prossimaStanza);
-		io.mostraMessaggio(partita.getStanzaCorrente().getNome());
-		partita.getGiocatore().setCfu(partita.getGiocatore().getCfu()-1);
-	}
-	 @Override
-	    public String getParametro() {
-	        return this.direzione;
-	    }
 
-	    @Override
-	    public String getNome() {
-	        return "vai";
-	    }
-	
+		Stanza stanzaCorrente = partita.getStanzaCorrente();
+		Stanza prossimaStanza = stanzaCorrente.getStanzaAdiacente(direzione);
+
+		if (prossimaStanza == null) {
+			io.mostraMessaggio("Non puoi andare in quella direzione");
+			return;
+		}
+
+		partita.setStanzaCorrente(prossimaStanza);
+
+		io.mostraMessaggio(partita.getStanzaCorrente().getNome());
+
+		partita.getGiocatore().setCfu(
+			partita.getGiocatore().getCfu() - 1
+		);
+	}
+
+	@Override
+	public String getNome() {
+		return "vai";
+	}
 }

@@ -1,5 +1,8 @@
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import it.uniroma3.diadia.DiaDia;
@@ -9,10 +12,11 @@ public class DiaDiaTest {
 
     @Test
     public void testAiutoStampaComandi() {
-        String[] input = {
-            "aiuto",
-            "fine"
-        };
+
+        List<String> input = Arrays.asList(
+                "aiuto",
+                "fine"
+        );
 
         IOSimulator io = new IOSimulator(input);
         DiaDia gioco = new DiaDia(io);
@@ -29,12 +33,13 @@ public class DiaDiaTest {
 
         assertTrue(trovato);
     }
-    
+
     @Test
     public void testVittoria() {
-        String[] input = {
-            "vai nord"
-        };
+
+        List<String> input = Arrays.asList(
+                "vai nord"
+        );
 
         IOSimulator io = new IOSimulator(input);
         DiaDia gioco = new DiaDia(io);
@@ -51,13 +56,14 @@ public class DiaDiaTest {
 
         assertTrue(vinto);
     }
-    
+
     @Test
     public void testComandoNonValido() {
-        String[] input = {
-            "xyz",
-            "fine"
-        };
+
+        List<String> input = Arrays.asList(
+                "xyz",
+                "fine"
+        );
 
         IOSimulator io = new IOSimulator(input);
         DiaDia gioco = new DiaDia(io);
@@ -74,15 +80,16 @@ public class DiaDiaTest {
 
         assertTrue(trovato);
     }
-    
+
     @Test
     public void testSequenzaComandi() {
-        String[] input = {
-            "guarda",
-            "vai est",
-            "vai ovest",
-            "fine"
-        };
+
+        List<String> input = Arrays.asList(
+                "guarda",
+                "vai est",
+                "vai ovest",
+                "fine"
+        );
 
         IOSimulator io = new IOSimulator(input);
         DiaDia gioco = new DiaDia(io);
@@ -91,14 +98,15 @@ public class DiaDiaTest {
 
         assertFalse(io.getOutput().isEmpty());
     }
-    
+
     @Test
     public void testMovimentoMostraNuovaStanza() {
-        String[] input = {
-            "vai est",   
-            "guarda",
-            "fine"
-        };
+
+        List<String> input = Arrays.asList(
+                "vai est",
+                "guarda",
+                "fine"
+        );
 
         IOSimulator io = new IOSimulator(input);
         DiaDia gioco = new DiaDia(io);
@@ -115,14 +123,15 @@ public class DiaDiaTest {
 
         assertTrue(trovato);
     }
-    
+
     @Test
     public void testPrendiAttrezzo() {
-        String[] input = {
-            "vai sud",        // Atrio → Aula N10
-            "prendi lanterna",
-            "fine"
-        };
+
+        List<String> input = Arrays.asList(
+                "vai sud",
+                "prendi lanterna",
+                "fine"
+        );
 
         IOSimulator io = new IOSimulator(input);
         DiaDia gioco = new DiaDia(io);
@@ -139,15 +148,16 @@ public class DiaDiaTest {
 
         assertTrue(trovato);
     }
-    
+
     @Test
     public void testPosaAttrezzo() {
-        String[] input = {
-            "vai sud",
-            "prendi lanterna",
-            "posa lanterna",
-            "fine"
-        };
+
+        List<String> input = Arrays.asList(
+                "vai sud",
+                "prendi lanterna",
+                "posa lanterna",
+                "fine"
+        );
 
         IOSimulator io = new IOSimulator(input);
         DiaDia gioco = new DiaDia(io);
@@ -164,19 +174,19 @@ public class DiaDiaTest {
 
         assertTrue(trovato);
     }
-    
+
     @Test
     public void testFinePartita() {
-        String[] input = {
-            "fine"
-        };
+
+        List<String> input = Arrays.asList(
+                "fine"
+        );
 
         IOSimulator io = new IOSimulator(input);
         DiaDia gioco = new DiaDia(io);
 
         gioco.gioca();
 
-        // se arriva qui senza loop infinito → OK
         assertTrue(true);
     }
 }

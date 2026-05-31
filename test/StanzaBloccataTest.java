@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import it.uniroma3.diadia.ambienti.Direzione;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.ambienti.StanzaBloccata;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
@@ -14,14 +15,14 @@ public class StanzaBloccataTest {
 
     @BeforeEach
     public void setUp() {
-        stanza = new StanzaBloccata("atrio", "nord", "passepartout");
+        stanza = new StanzaBloccata("atrio", Direzione.NORD, "passepartout");
         stanzaNord = new Stanza("biblioteca");
 
-        stanza.impostaStanzaAdiacente("nord", stanzaNord);
+        stanza.impostaStanzaAdiacente(Direzione.NORD, stanzaNord);
     }
     @Test
     public void testDirezioneBloccataSenzaAttrezzo() {
-        Stanza risultato = stanza.getStanzaAdiacente("nord");
+        Stanza risultato = stanza.getStanzaAdiacente(Direzione.NORD);
 
         assertEquals(stanza, risultato); 
     }
@@ -29,16 +30,16 @@ public class StanzaBloccataTest {
     public void testDirezioneSbloccataConAttrezzo() {
         stanza.addAttrezzo(new Attrezzo("passepartout", 1));
 
-        Stanza risultato = stanza.getStanzaAdiacente("nord");
+        Stanza risultato = stanza.getStanzaAdiacente(Direzione.NORD);
 
         assertEquals(stanzaNord, risultato);
     }
     @Test
     public void testDirezioneNonBloccata() {
         Stanza est = new Stanza("cucina");
-        stanza.impostaStanzaAdiacente("est", est);
+        stanza.impostaStanzaAdiacente(Direzione.EST, est);
 
-        Stanza risultato = stanza.getStanzaAdiacente("est");
+        Stanza risultato = stanza.getStanzaAdiacente(Direzione.EST);
 
         assertEquals(est, risultato);
     }

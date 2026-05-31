@@ -1,0 +1,5 @@
+Stanze: Atrio, Aula N11, Aula N10, Laboratorio Campus, Biblioteca
+Inizio: Atrio
+Vincente: Biblioteca
+Attrezzi: lanterna 3 Aula N10, osso 1 Atrio
+Uscite: Atrio nord Biblioteca, Atrio est Aula N11, Atrio sud Aula N10, Atrio ovest Laboratorio Campus, Aula N11 est Laboratorio Campus, Aula N11 ovest Atrio, Aula N10 nord Atrio, Aula N10 est Aula N11, Aula N10 ovest Laboratorio Campus, Laboratorio Campus est Atrio, Laboratorio Campus ovest Aula N11, Biblioteca sud Atrio

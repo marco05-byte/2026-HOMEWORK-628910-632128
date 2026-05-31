@@ -19,13 +19,21 @@ public class Partita {
 	private boolean finita;
 	private Giocatore giocatore;
 	
-	public Partita(){
-		this.labirinto = new Labirinto();
-		this.stanzaCorrente = labirinto.getEntrata();
-		this.stanzaVincente = labirinto.getUscita();
+	public Partita() {
+		this(Labirinto.newBuilder().getLabirinto());
+	}
+	
+	public Partita(Labirinto labirinto) {
+		if (labirinto == null) {
+            throw new IllegalArgumentException("Labirinto nullo");
+        }
+		this.labirinto = labirinto;
+		this.stanzaCorrente = labirinto.getStanzaIniziale();
+		this.stanzaVincente = labirinto.getStanzaVincente();
 		this.finita = false;
 		this.giocatore = new Giocatore();
 	}
+
 	public Labirinto getLabirinto() {
 	    return this.labirinto;
 	}
@@ -69,4 +77,9 @@ public class Partita {
 	public void setFinita() {
 		this.finita = true;
 	}	
+	public void setLabirinto(Labirinto labirinto) {
+		this.labirinto = labirinto;
+		this.stanzaCorrente = labirinto.getStanzaIniziale();
+		this.stanzaVincente = labirinto.getStanzaVincente();
+	}
 }

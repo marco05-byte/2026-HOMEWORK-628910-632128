@@ -1,38 +1,87 @@
 package comandiTest;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
+import java.util.Arrays;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import it.uniroma3.diadia.IOSimulator;
 import it.uniroma3.diadia.Partita;
-import it.uniroma3.diadia.ambienti.Stanza;
+import it.uniroma3.diadia.ambienti.Direzione;
+import it.uniroma3.diadia.ambienti.Labirinto;
 import it.uniroma3.diadia.comandi.ComandoVai;
 
 public class ComandoVaiTest {
-	private Partita partita;
-	private Stanza stanza1;
-	private Stanza stanza2;
-	
+
+	private IOSimulator io;
+
+	@BeforeEach
+	public void setUp() {
+		this.io = new IOSimulator(Arrays.asList());
+	}
+
 	@Test
 	public void testVaiInDirezioneValida() {
-		stanza1 = new Stanza("Stanza1");
-		stanza2 = new Stanza("Stanza2");
-		stanza1.impostaStanzaAdiacente("nord", stanza2);
-		partita = new Partita();
-		partita.setStanzaCorrente(stanza1);
+
+		Labirinto lab =Labirinto.newBuilder()
+				.addStanzaIniziale("Stanza1")
+				.addStanza("Stanza2")
+				.addAdiacenza("Stanza1", "Stanza2", Direzione.NORD)
+				.getLabirinto();
+
+		Partita partita = new Partita(lab);
+
 		ComandoVai comando = new ComandoVai();
+
 		comando.setParametro("nord");
+		comando.setIO(io);
+
 		comando.esegui(partita);
-		assertEquals(stanza2, partita.getStanzaCorrente());
+
+		assertEquals("Stanza2",
+				partita.getStanzaCorrente().getNome());
 	}
+
 	@Test
-	public void testVaiInDirezioneInsesistente() {
-		stanza1 = new Stanza("Stanza1");
-		partita = new Partita();
-		partita.setStanzaCorrente(stanza1);
+	public void testVaiDirezioneInesistente() {
+
+		Labirinto lab = Labirinto.newBuilder()
+				.addStanzaIniziale("Stanza1")
+				.addStanza("Stanza2")
+				.getLabirinto();
+
+		Partita partita = new Partita(lab);
+
 		ComandoVai comando = new ComandoVai();
+
 		comando.setParametro("sud");
+		comando.setIO(io);
+
 		comando.esegui(partita);
-		assertEquals(stanza1, partita.getStanzaCorrente());
+
+		assertEquals("Stanza1",
+				partita.getStanzaCorrente().getNome());
+	}
+
+	@Test
+	public void testVaiSenzaParametro() {
+
+		Labirinto lab = Labirinto.newBuilder()
+				.addStanzaIniziale("Aula")
+				.getLabirinto();
+
+		Partita partita = new Partita(lab);
+
+		ComandoVai comando = new ComandoVai();
+
+		comando.setParametro(null);
+		comando.setIO(io);
+
+		comando.esegui(partita);
+
+		assertEquals("Aula",
+				partita.getStanzaCorrente().getNome());
 	}
 }

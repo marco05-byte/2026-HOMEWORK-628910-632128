@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 
 import it.uniroma3.diadia.Partita;
+import it.uniroma3.diadia.ambienti.Direzione;
 import it.uniroma3.diadia.ambienti.Stanza;
 
 public class PartitaTest {
@@ -27,7 +28,7 @@ public class PartitaTest {
 
 	@Test
 	public void testVinta_StanzaVincenteRaggiunta() {
-		Stanza vincente = partita.getLabirinto().getUscita();
+		Stanza vincente = partita.getLabirinto().getStanzaVincente();
 		partita.setStanzaCorrente(vincente);
 		assertTrue(partita.vinta());
 	}
@@ -35,7 +36,7 @@ public class PartitaTest {
 	@Test
 	public void testVinta_AltraStanzaNonVincente() {
 		Stanza corrente = partita.getStanzaCorrente();
-		Stanza adiacente = corrente.getStanzaAdiacente("est"); // Aula N11
+		Stanza adiacente = corrente.getStanzaAdiacente(Direzione.EST); // Aula N11
 		partita.setStanzaCorrente(adiacente);
 		assertFalse(partita.vinta());
 	}
@@ -56,7 +57,7 @@ public class PartitaTest {
 	@Test
 	public void testIsFinita_PartitaVinta() {
 		// Se la partita è vinta, deve risultare anche finita
-		Stanza vincente = partita.getLabirinto().getUscita();
+		Stanza vincente = partita.getLabirinto().getStanzaVincente();
 		partita.setStanzaCorrente(vincente);
 		assertTrue(partita.isFinita());
 	}

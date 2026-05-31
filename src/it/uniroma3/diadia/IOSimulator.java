@@ -1,30 +1,38 @@
 package it.uniroma3.diadia;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
-public class IOSimulator implements IO{
-	private String[] input;     
-	private int indiceInput;
+public class IOSimulator implements IO {
+
+	private Queue<String> input;
 	private List<String> output;
-	
-	public IOSimulator(String[] input) {
-	    this.input = input;
-	    this.indiceInput = 0;
-	    this.output = new ArrayList<>();
+
+	public IOSimulator(List<String> input) {
+
+		this.input = new LinkedList<>(input);
+		this.output = new ArrayList<>();
 	}
+
 	@Override
 	public String leggiRiga() {
-	    if (indiceInput < input.length) {
-	        return input[indiceInput++];
-	    }
-	    return null;
+
+		if (this.input.isEmpty())
+			return null;
+
+		return this.input.poll();
 	}
+
 	@Override
-    public void mostraMessaggio(String msg) {
-        output.add(msg);
-    }
+	public void mostraMessaggio(String msg) {
+
+		this.output.add(msg);
+	}
+
 	public List<String> getOutput() {
-        return output;
-    }
+
+		return this.output;
+	}
 }

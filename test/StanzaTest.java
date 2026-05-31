@@ -29,15 +29,7 @@ public class StanzaTest {
 		assertTrue(stanzaVuota.hasAttrezzo("osso"));
 	}
 
-	@Test
-	public void testAddAttrezzo_Piena() {
-		// Riempiamo la stanza fino al limite (10 attrezzi)
-		for (int i = 0; i < 10; i++) {
-			stanzaVuota.addAttrezzo(new Attrezzo("attrezzo" + i, 1));
-		}
-		// L'undicesimo attrezzo non deve poter essere aggiunto
-		assertFalse(stanzaVuota.addAttrezzo(osso));
-	}
+	
 
 	@Test
 	public void testAddAttrezzo_PiuAttrezzi() {
